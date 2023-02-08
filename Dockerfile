@@ -1,4 +1,4 @@
-FROM openjdk:17
-MAINTAINER ivancasatti
-COPY target/Back_Program.jar Back_Program.jar
-ENTRYPOINT ["java","-jar","/Back_Program.jar"]
+FROM amazoncorretto:17-alpine-jdk
+MAINTAINER CST
+COPY target/Back_Program-0.0.1-SNAPSHOT.jar cst-app.jar
+ENTRYPOINT ["java","-jar","/cst-app.jar"]
