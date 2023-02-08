@@ -1,4 +1,5 @@
 FROM amazoncorretto:17-alpine-jdk
 MAINTAINER ivancasatti
-COPY target/Back_Program.jar Back_Program.jar
-ENTRYPOINT ["java","-jar","/Back_Program.jar"]
+ARG JAR_FILE=target/Back_Program.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
