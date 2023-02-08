@@ -1,4 +1,4 @@
-FROM amazoncorretto:17-alpine-jdk
+FROM openjdk:17
 MAINTAINER ivancasatti
-COPY /Back_Program.jar Back_Program.jar
+COPY target/Back_Program.jar Back_Program.jar
 ENTRYPOINT ["java","-jar","/Back_Program.jar"]
