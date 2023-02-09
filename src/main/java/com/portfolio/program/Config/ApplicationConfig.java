@@ -1,6 +1,6 @@
 package com.portfolio.program.Config;
 
-import com.portfolio.program.Entity.UserRepository;
+import com.portfolio.program.EntitySecurity.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @CrossOrigin("/**")
@@ -17,8 +19,11 @@ public class PersonaController {
 
     @GetMapping("/get")
     @CrossOrigin("/**")
-    public List<Persona> getPersonas() {
-        return servPersona.getPersonas();
+    public ResponseEntity<List<Persona>> getPersonas() {
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("Access-Control-Allow-Origin", "*");
+        return new ResponseEntity<>(servPersona.getPersonas(),responseHeaders,HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")
