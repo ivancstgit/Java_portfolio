@@ -9,33 +9,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("/**")
 @RequestMapping("/api/persona")
 public class PersonaController {
     @Autowired
     private IPersonaService servPersona;
 
     @GetMapping("/get")
+    @CrossOrigin("/**")
     public List<Persona> getPersonas() {
         return servPersona.getPersonas();
     }
 
     @GetMapping("/get/{id}")
+    @CrossOrigin("/**")
     public Persona getPersonaById(@RequestParam Long id) {
         return servPersona.findPersona(id);
     }
     @PostMapping("/save")
+    @CrossOrigin("/**")
     public ResponseEntity<String> newPersona(@RequestBody Persona pers) {
         servPersona.savePersona(pers);
         return ResponseEntity.ok("Registrado correctamente");
     }
 
     @DeleteMapping("/delete/{id}")
+    @CrossOrigin("/**")
     public ResponseEntity<String> deletePersona(@PathVariable Long id) {
         servPersona.deletePersona(id);
         return ResponseEntity.ok("Eliminado Correctamente");
     }
 
     @PutMapping("/edit/{id}")
+    @CrossOrigin("/**")
     public Persona changePersona(@PathVariable Long id,
                                  @RequestParam String name,
                                  @RequestParam String profile_img,
