@@ -24,7 +24,7 @@ public class AuthenticationController {
             @RequestBody AuthenticationRequest request
     ) {
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Access-Control-Allow-Origin", "*");
+        responseHeaders.add("Access-Control-Allow-Origin", "/**");
         return new ResponseEntity<>(service.authenticate(request),responseHeaders,HttpStatus.OK);
     }
 
