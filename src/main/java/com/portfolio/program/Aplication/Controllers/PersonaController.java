@@ -22,7 +22,7 @@ public class PersonaController {
     public ResponseEntity<List<Persona>> getPersonas() {
         
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Access-Control-Allow-Origin", "http://localhost:4200/login");
+        responseHeaders.add("Access-Control-Allow-Origin", "*");
         return new ResponseEntity<>(servPersona.getPersonas(),responseHeaders,HttpStatus.OK);
     }
 
