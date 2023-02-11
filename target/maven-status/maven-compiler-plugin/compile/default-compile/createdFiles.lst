@@ -1,6 +1,5 @@
 com\portfolio\program\Aplication\Controllers\DomicilioController.class
 com\portfolio\program\Config\ApplicationConfig.class
-com\portfolio\program\Config\WebConfig.class
 com\portfolio\program\Aplication\Model\Portfolio$PortfolioBuilder.class
 com\portfolio\program\ControllerSecurity\AuthenticationResponse$AuthenticationResponseBuilder.class
 com\portfolio\program\Aplication\Repository\ContactRepository.class

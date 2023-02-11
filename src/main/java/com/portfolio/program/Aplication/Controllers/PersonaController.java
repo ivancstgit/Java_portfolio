@@ -2,11 +2,11 @@ package com.portfolio.program.Aplication.Controllers;
 
 import com.portfolio.program.Aplication.Model.Persona;
 import com.portfolio.program.Aplication.Service.Interfaces.IPersonaService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
@@ -26,6 +26,12 @@ public class PersonaController {
         return new ResponseEntity<>(servPersona.getPersonas(),responseHeaders,HttpStatus.OK);
     }
 
+    
+    
+    
+    
+    
+    
     @GetMapping("/get/{id}")
     @CrossOrigin("/**")
     public Persona getPersonaById(@RequestParam Long id) {
