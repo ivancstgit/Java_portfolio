@@ -11,14 +11,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 
 @RestController
-@CrossOrigin("/**")
+@CrossOrigin
 @RequestMapping("/api/persona")
 public class PersonaController {
     @Autowired
     private IPersonaService servPersona;
 
     @GetMapping("/get")
-    @CrossOrigin("/**")
+    @CrossOrigin
     public ResponseEntity<List<Persona>> getPersonas() {
         
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -33,26 +33,26 @@ public class PersonaController {
     
     
     @GetMapping("/get/{id}")
-    @CrossOrigin("/**")
+    @CrossOrigin
     public Persona getPersonaById(@RequestParam Long id) {
         return servPersona.findPersona(id);
     }
     @PostMapping("/save")
-    @CrossOrigin("/**")
+    @CrossOrigin
     public ResponseEntity<String> newPersona(@RequestBody Persona pers) {
         servPersona.savePersona(pers);
         return ResponseEntity.ok("Registrado correctamente");
     }
 
     @DeleteMapping("/delete/{id}")
-    @CrossOrigin("/**")
+    @CrossOrigin
     public ResponseEntity<String> deletePersona(@PathVariable Long id) {
         servPersona.deletePersona(id);
         return ResponseEntity.ok("Eliminado Correctamente");
     }
 
     @PutMapping("/edit/{id}")
-    @CrossOrigin("/**")
+    @CrossOrigin
     public Persona changePersona(@PathVariable Long id,
                                  @RequestParam String name,
                                  @RequestParam String profile_img,

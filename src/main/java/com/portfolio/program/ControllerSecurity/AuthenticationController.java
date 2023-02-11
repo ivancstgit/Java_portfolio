@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@CrossOrigin
 public class AuthenticationController {
     private final AuthenticationService service;
 
@@ -23,9 +24,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Access-Control-Allow-Origin", "*");
-        return new ResponseEntity<>(service.authenticate(request),responseHeaders,HttpStatus.OK);
+        return ResponseEntity.ok(service.authenticate(request));
     }
 
 
