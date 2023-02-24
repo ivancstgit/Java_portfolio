@@ -13,14 +13,16 @@ public class Portfolio {
     private String description;
     private String image;
     private String title;
+    private boolean state;
 
     public Portfolio() {
     }
 
-    public Portfolio(String description, String image, String title) {
+    public Portfolio(String description, String image, String title, boolean state) {
         this.description = description;
         this.image = image;
         this.title = title;
+        this.state = state;
     }
 
     public int getId() {
@@ -54,6 +56,16 @@ public class Portfolio {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
+    
+    
     
     
 
