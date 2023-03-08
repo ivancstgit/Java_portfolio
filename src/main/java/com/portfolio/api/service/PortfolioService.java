@@ -40,5 +40,9 @@ public class PortfolioService {
     public boolean existsById(int id){
         return PortfolioRepository.existsById(id);
     }
+    
+    public List<Portfolio> getByType(String type){
+        return PortfolioRepository.findByType(type);
+    }
 
 }

@@ -18,44 +18,53 @@ import java.util.List;
 public class PersonaController {
 
     @Autowired
-    PersonaService productoService;
+    PersonaService personaService;
 
     @GetMapping("/lista")
     public ResponseEntity<List<Persona>> list(){
-        List<Persona> list = productoService.list();
+        List<Persona> list = personaService.list();
         return new ResponseEntity(list, HttpStatus.OK);
     }
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<Persona> getById(@PathVariable("id") int id){
-        if(!productoService.existsById(id))
+        if(!personaService.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        Persona producto = productoService.getOne(id).get();
-        return new ResponseEntity(producto, HttpStatus.OK);
+        Persona persona = personaService.getOne(id).get();
+        return new ResponseEntity(persona, HttpStatus.OK);
     }
 
     
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody PersonaDto productoDto){
-        if(!productoService.existsById(id))
+    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody PersonaDto personaDto){
+        if(!personaService.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        if(StringUtils.isBlank(productoDto.getName()))
+        if(StringUtils.isBlank(personaDto.getName()))
             return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
 
-        Persona producto = productoService.getOne(id).get();
-        producto.setName(productoDto.getName());
-        producto.setProfile_img(productoDto.getProfile_img());
-        producto.setDescription(productoDto.getDescription());
-        productoService.save(producto);
-        return new ResponseEntity(new Mensaje("producto actualizado"), HttpStatus.OK);
+        Persona persona = personaService.getOne(id).get();
+        persona.setName(personaDto.getName());
+        persona.setProfile_img(personaDto.getProfile_img());
+        persona.setDescription(personaDto.getDescription());
+        personaService.save(persona);
+        return new ResponseEntity(new Mensaje("Persona actualizada"), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id")int id){
-        if(!productoService.existsById(id))
+        if(!personaService.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        productoService.delete(id);
-        return new ResponseEntity(new Mensaje("producto eliminado"), HttpStatus.OK);
+        personaService.delete(id);
+        return new ResponseEntity(new Mensaje("Persona eliminada"), HttpStatus.OK);
+    }
+    
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody PersonaDto personaDto){
+        if(StringUtils.isBlank(personaDto.getName()))
+            return new ResponseEntity(new Mensaje("el nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        Persona persona = new Persona(personaDto.getName(),personaDto.getProfile_img(),personaDto.getDescription());
+        personaService.save(persona);
+        return new ResponseEntity(new Mensaje("Persona creada"), HttpStatus.OK);
     }
 
 
