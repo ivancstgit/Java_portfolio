@@ -1,15 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.portfolio.api.controller;
 
-import com.portfolio.api.dto.Mensaje;
+import com.portfolio.api.dto.Response;
 import com.portfolio.api.dto.AboutDto;
 import com.portfolio.api.entity.About;
 import com.portfolio.api.service.AboutService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,45 +28,51 @@ public class AboutController {
     @Autowired
     AboutService aboutService;
 
-    @GetMapping("/lista")
+    @GetMapping
     public ResponseEntity<List<About>> list(){
-        List<About> list = aboutService.list();
-        return new ResponseEntity(list, HttpStatus.OK);
+        List<About> list = aboutService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<About> getById(@PathVariable("id") int id){
-        if(!aboutService.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        About about = aboutService.getOne(id).get();
-        return new ResponseEntity(about, HttpStatus.OK);
+    @GetMapping("/{id}")
+public ResponseEntity<Response<About>> getById(@PathVariable("id") int id) {
+    try {
+        About about = aboutService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response<About>(about));
+    } catch (NotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
     }
+    
+}
 
     
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id")int id, @RequestBody AboutDto aboutDto){
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<About>> update(@PathVariable("id")Integer id, @RequestBody AboutDto aboutDto){
 
-        About about = aboutService.getOne(id).get();
-        about.setName(aboutDto.getName());
-        about.setPorcent(aboutDto.getPorcent());
-        about.setColor(aboutDto.getColor());
-        aboutService.save(about);
-        return new ResponseEntity(new Mensaje("About actualizado"), HttpStatus.OK);
+        try {
+            About about = aboutService.update(id, aboutDto);
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<About>("About actualizado", about));
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+        }
+
+        
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id")int id){
-        if(!aboutService.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        aboutService.delete(id);
-        return new ResponseEntity(new Mensaje("About eliminado"), HttpStatus.OK);
+        try {
+            About about = aboutService.delete(id);
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<About>("About eliminado", about));
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+        }
     }
     
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody AboutDto aboutDto){
-        About about = new About(aboutDto.getName(),aboutDto.getPorcent(),aboutDto.getColor());
-        aboutService.save(about);
-        return new ResponseEntity(new Mensaje("About creado"), HttpStatus.OK);
+        About about = aboutService.add(aboutDto);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response<About>("About creado", about));
     }
 
 

@@ -1,44 +1,65 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.portfolio.api.service;
 
+import com.portfolio.api.dto.ContactDto;
 import com.portfolio.api.entity.Contact;
 import com.portfolio.api.repository.ContactRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @Transactional
-public class ContactService {
+public class ContactService implements IService<Contact, ContactDto> {
 
     @Autowired
     ContactRepository contactRepository;
 
-    public List<Contact> list(){
+
+    @Override
+    public List<Contact> findAll() {
         return contactRepository.findAll();
     }
 
-    public Optional<Contact> getOne(int id){
-        return contactRepository.findById(id);
+    @Override
+    public Contact add(ContactDto entity) {
+        Contact contact = new Contact();
+        contact.setIcon(entity.getIcon());
+        contact.setLink(entity.getLink());
+        contact.setSocial_name(entity.getSocial_name());
+        
+        return contactRepository.save(contact);
     }
 
+    @Override
+    public Contact update(Integer id, ContactDto entity) throws NotFoundException {
+        
+        Contact contact = this.findById(id);
 
-    public void  save(Contact contact){
-        contactRepository.save(contact);
+        contact.setIcon(entity.getIcon());
+        contact.setLink(entity.getLink());
+        contact.setSocial_name(entity.getSocial_name());
+        
+        return contactRepository.save(contact);
     }
 
-    public void delete(int id){
+    @Override
+    public Contact delete(Integer id) throws NotFoundException {
+        Contact contact = this.findById(id);
         contactRepository.deleteById(id);
+        return contact;
     }
 
-    public boolean existsById(int id){
-        return contactRepository.existsById(id);
+    @Override
+    public Contact findById(Integer id) throws NotFoundException {
+        Optional<Contact> contact = contactRepository.findById(id);
+        if (!contact.isPresent()) {
+            throw new NotFoundException();
+        }
+        return contact.get();
     }
 
 }

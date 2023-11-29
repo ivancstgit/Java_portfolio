@@ -1,57 +1,37 @@
 package com.portfolio.api.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "about")
 public class About {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private String porcent;
+    
+    @Column(name = "color")
     private String color;
 
-    public About() {
-    }
+    @Column(name = "name")
+    private String name;
 
-    public About(String name, String porcent, String color) {
-        this.name = name;
-        this.porcent = porcent;
-        this.color = color;
-    }
-    public int getId() {
-        return id;
-    }
+    @Column(name = "porcent")
+    private String porcent;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPorcent() {
-        return porcent;
-    }
-
-    public void setPorcent(String porcent) {
-        this.porcent = porcent;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
+    
 
 
 }
