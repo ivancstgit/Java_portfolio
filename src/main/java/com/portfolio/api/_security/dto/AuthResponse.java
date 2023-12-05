@@ -1,4 +1,4 @@
-package com.portfolio.api._security.entity.dto;
+package com.portfolio.api._security.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
