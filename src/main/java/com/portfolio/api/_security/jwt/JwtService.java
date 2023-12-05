@@ -1,6 +1,7 @@
 package com.portfolio.api._security.jwt;
 
 import java.security.Key;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +53,9 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> defaultClaims = new HashMap<>();
+        defaultClaims.put("roles", Arrays.asList("USER", "ADMIN"));
+        return generateToken(defaultClaims, userDetails);
     }
     
       public String generateToken(
@@ -73,6 +76,7 @@ public class JwtService {
               UserDetails userDetails,
               long expiration
       ) {
+        
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

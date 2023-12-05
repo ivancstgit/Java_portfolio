@@ -15,30 +15,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.portfolio.api.dto.AboutDto;
+import com.portfolio.api.dto.ProfileDto;
 import com.portfolio.api.dto.Response;
-import com.portfolio.api.entity.About;
-import com.portfolio.api.service.AboutService;
+import com.portfolio.api.entity.Profile;
+import com.portfolio.api.service.ProfileService;
 
 
 @RestController
-@RequestMapping("/about")
-public class AboutController {
+@RequestMapping("/profile")
+public class ProfileController {
 
     @Autowired
-    AboutService aboutService;
+    ProfileService profileService;
 
     @GetMapping
-    public ResponseEntity<List<About>> list(){
-        List<About> list = aboutService.findAll();
+    public ResponseEntity<List<Profile>> list(){
+        List<Profile> list = profileService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @GetMapping("/{id}")
-public ResponseEntity<Response<About>> getById(@PathVariable("id") int id) {
+public ResponseEntity<Response<Profile>> getById(@PathVariable("id") int id) {
     try {
-        About about = aboutService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response<About>(about));
+        Profile profile = profileService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>(profile));
     } catch (NotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
     }
@@ -47,11 +47,11 @@ public ResponseEntity<Response<About>> getById(@PathVariable("id") int id) {
 
     
     @PutMapping("/{id}")
-    public ResponseEntity<Response<About>> update(@PathVariable("id")Integer id, @RequestBody AboutDto aboutDto){
+    public ResponseEntity<Response<Profile>> update(@PathVariable("id")Integer id, @RequestBody ProfileDto profileDto){
 
         try {
-            About about = aboutService.update(id, aboutDto);
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<About>("About actualizado", about));
+            Profile profile = profileService.update(id, profileDto);
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile actualizado", profile));
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
         }
@@ -62,17 +62,17 @@ public ResponseEntity<Response<About>> getById(@PathVariable("id") int id) {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id")int id){
         try {
-            About about = aboutService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<About>("About eliminado", about));
+            Profile profile = profileService.delete(id);
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile eliminado", profile));
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
         }
     }
     
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody AboutDto aboutDto){
-        About about = aboutService.add(aboutDto);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response<About>("About creado", about));
+    public ResponseEntity<?> create(@RequestBody ProfileDto profileDto){
+        Profile profile = profileService.add(profileDto);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile creado", profile));
     }
 
 
