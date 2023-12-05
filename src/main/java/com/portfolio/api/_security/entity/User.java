@@ -2,10 +2,13 @@ package com.portfolio.api._security.entity;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.portfolio.api._security.utils.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,7 +50,13 @@ public class User implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        List<GrantedAuthority> authorities = role.getPermissions().stream()
+            .map(permisionEnum -> new SimpleGrantedAuthority(permisionEnum.name()))
+            .collect(Collectors.toList());
+
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        
+        return authorities;
     }
     
     @Override

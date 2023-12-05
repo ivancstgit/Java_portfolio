@@ -1,6 +1,6 @@
-package com.portfolio.api._security.entity.dto;
+package com.portfolio.api._security.dto;
 
-import com.portfolio.api._security.entity.Role;
+import com.portfolio.api._security.utils.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
