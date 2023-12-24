@@ -40,6 +40,7 @@ public class HttpSecurityConfig {
             CorsConfiguration config = new CorsConfiguration();
             config.setAllowedOrigins(Arrays.asList("https://fir-portfolio-220a9.web.app", "http://localhost:3000"));
             config.setAllowCredentials(true);
+            config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
             config.applyPermitDefaultValues();
             return config;
             }))
@@ -55,16 +56,22 @@ public class HttpSecurityConfig {
 
      private static Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> builderRequestMatchers() {
         return authorize -> {
-                //public
+                //Public
                 authorize.requestMatchers("/auth/signin").permitAll();
                 
-                //protected
+                //Specific
                 authorize.requestMatchers("/auth/signup").hasAuthority(Permission.ALL_ACCESS.name());
+
+                authorize.requestMatchers(HttpMethod.POST,"/message").hasAnyAuthority(Permission.READ_ALL.name(), Permission.ALL_ACCESS.name());
+                
+                authorize.requestMatchers(HttpMethod.GET,"/message").hasAuthority(Permission.ALL_ACCESS.name());
+
+
                 authorize.requestMatchers(HttpMethod.DELETE,"/**").hasAuthority(Permission.ALL_ACCESS.name());
                 authorize.requestMatchers(HttpMethod.POST,"/**").hasAuthority(Permission.ALL_ACCESS.name());
                 authorize.requestMatchers(HttpMethod.PUT,"/**").hasAuthority(Permission.ALL_ACCESS.name());
                 
-                //private
+                //All
                 authorize.anyRequest().authenticated();
             };
     }

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,8 +24,9 @@ public class Proyect {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "image")
-    private String image;
+    @Column(name = "image", columnDefinition = "LONGBLOB")
+    @Lob
+    private byte[] image;
 
     @Column(name = "title")
     private String title;

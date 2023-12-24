@@ -1,8 +1,8 @@
 package com.portfolio.api.repository;
 
-import com.portfolio.api.entity.About;
+import com.portfolio.api.entity.Skills;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 @Repository
-public interface AboutRepository extends JpaRepository<About, Integer>{
+public interface SkillsRepository extends JpaRepository<Skills, Integer>{
 }

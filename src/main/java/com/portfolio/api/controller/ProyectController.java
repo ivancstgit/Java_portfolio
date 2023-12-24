@@ -1,5 +1,9 @@
 package com.portfolio.api.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,20 +45,23 @@ public ResponseEntity<Response<Proyect>> getById(@PathVariable("id") int id) {
         Proyect proyect = proyectService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(new Response<Proyect>(proyect));
     } catch (NotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Proyect not found"));
     }
     
 }
 
     
     @PutMapping("/{id}")
-    public ResponseEntity<Response<Proyect>> update(@PathVariable("id")Integer id, @RequestBody ProyectDto proyectDto){
+    public ResponseEntity<Response<Proyect>> update(@PathVariable("id")Integer id,
+            @ModelAttribute ProyectDto proyectDto){
 
         try {
             Proyect proyect = proyectService.update(id, proyectDto);
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<Proyect>("Proyect actualizado", proyect));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<Proyect>("Proyect updated", proyect));
         } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Proyect not found"));
+        } catch (IOException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<>("Error with the img: " + e));
         }
 
         
@@ -63,16 +71,23 @@ public ResponseEntity<Response<Proyect>> getById(@PathVariable("id") int id) {
     public ResponseEntity<?> delete(@PathVariable("id")int id){
         try {
             Proyect proyect = proyectService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<Proyect>("Proyect eliminado", proyect));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<Proyect>("Proyect deleted", proyect));
         } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Proyect not found"));
         }
     }
     
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ProyectDto proyectDto){
-        Proyect proyect = proyectService.add(proyectDto);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response<Proyect>("Proyect creado", proyect));
+    public ResponseEntity<?> create(@ModelAttribute ProyectDto proyectDto){
+
+        Proyect proyect;
+        try {
+            proyect = proyectService.add(proyectDto);
+             return ResponseEntity.status(HttpStatus.OK).body(new Response<Proyect>("Proyect created", proyect));
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response<Proyect>("An error ocurred"));
+        }
+       
     }
 
 

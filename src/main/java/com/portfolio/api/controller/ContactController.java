@@ -40,7 +40,7 @@ public ResponseEntity<Response<Contact>> getById(@PathVariable("id") int id) {
         Contact contact = contactService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(new Response<Contact>(contact));
     } catch (NotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Contact not found"));
     }
     
 }
@@ -51,9 +51,9 @@ public ResponseEntity<Response<Contact>> getById(@PathVariable("id") int id) {
 
         try {
             Contact contact = contactService.update(id, contactDto);
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<Contact>("Contact actualizado", contact));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<Contact>("Contact updated", contact));
         } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Contact not found"));
         }
 
         
@@ -63,16 +63,16 @@ public ResponseEntity<Response<Contact>> getById(@PathVariable("id") int id) {
     public ResponseEntity<?> delete(@PathVariable("id")int id){
         try {
             Contact contact = contactService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<Contact>("Contact eliminado", contact));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<Contact>("Contact deleted", contact));
         } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Contact not found"));
         }
     }
     
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ContactDto contactDto){
         Contact contact = contactService.add(contactDto);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response<Contact>("Contact creado", contact));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response<Contact>("Contact created", contact));
     }
 
 

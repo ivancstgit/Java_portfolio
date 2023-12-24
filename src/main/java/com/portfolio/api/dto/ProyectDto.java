@@ -1,5 +1,7 @@
 package com.portfolio.api.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class ProyectDto {
 
     private String description;
-    private String image;
+    private MultipartFile file;
     private String title;
     private boolean state;
     private String type;  

@@ -40,7 +40,7 @@ public ResponseEntity<Response<Profile>> getById(@PathVariable("id") int id) {
         Profile profile = profileService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>(profile));
     } catch (NotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Profile not found"));
     }
     
 }
@@ -51,9 +51,9 @@ public ResponseEntity<Response<Profile>> getById(@PathVariable("id") int id) {
 
         try {
             Profile profile = profileService.update(id, profileDto);
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile actualizado", profile));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile updated", profile));
         } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Profile not found"));
         }
 
         
@@ -63,16 +63,16 @@ public ResponseEntity<Response<Profile>> getById(@PathVariable("id") int id) {
     public ResponseEntity<?> delete(@PathVariable("id")int id){
         try {
             Profile profile = profileService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile eliminado", profile));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile deleted", profile));
         } catch (NotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("No existe"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Response<>("Profile not found"));
         }
     }
     
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ProfileDto profileDto){
         Profile profile = profileService.add(profileDto);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile creado", profile));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response<Profile>("Profile created", profile));
     }
 
 
